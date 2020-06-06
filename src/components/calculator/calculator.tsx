@@ -13,6 +13,9 @@ const Calculator = () => {
             case 'cos':
             case 'tan':
             case 'x^2':
+                if (functionOpen) {
+                    setDisplayValue(displayValue + ')' + e.currentTarget.innerText)
+                }
                 setDisplayValue(displayValue + e.currentTarget.innerText + '(')
                 setFunctionOpen(true)
                 break
@@ -24,8 +27,16 @@ const Calculator = () => {
                     setDisplayValue(displayValue + ')' + e.currentTarget.innerText)
                     setFunctionOpen(false)
                 }
+                else {
+                    if (displayValue[displayValue.length - 1] === '+' ||
+                        displayValue[displayValue.length - 1] === '-' ||
+                        displayValue[displayValue.length - 1] === 'X' ||
+                        displayValue[displayValue.length - 1] === '/') {
+                        setDisplayValue(displayValue.substring(0, displayValue.length - 1) + e.currentTarget.innerText)
+                    }
+                }
                 break
-                
+
         }
     }
 
