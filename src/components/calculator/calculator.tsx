@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Button from './../button/button'
 import './calculator.scss'
-import { isFunction } from 'util'
 
 const Calculator = () => {
     const [displayValue, setDisplayValue] = useState('0')
