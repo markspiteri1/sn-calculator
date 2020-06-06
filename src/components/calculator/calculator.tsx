@@ -7,8 +7,11 @@ const Calculator = () => {
     const [functionOpen, setFunctionOpen] = useState(false)
 
     const handleClick = (e: any) => {
+        if (displayValue === 'Invalid exp.'){
+            return
+        }
         setDisplayValue(displayValue + e.currentTarget.innerText)
-        switch (e.currentTarget.innerText) {
+         switch (e.currentTarget.innerText) {
             case 'sin':
             case 'cos':
             case 'tan':
@@ -55,11 +58,12 @@ const Calculator = () => {
             expression = expression.replace(/cos/g, 'Math.cos')
             expression = expression.replace(/tan/g, 'Math.tan')
             expression = expression.replace(/X/g, '*')
-            let answer = eval(displayValue);
-            return true
+            expression = expression.replace(/x^2/g, 'Math.pow')
+            let answer = eval(expression);
+            setDisplayValue(answer)
         } catch (e) {
             if (e instanceof SyntaxError) {
-                return false
+                setDisplayValue('Invalid exp.')
             }
         }
     }
