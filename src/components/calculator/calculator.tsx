@@ -5,7 +5,21 @@ import './calculator.scss'
 const Calculator = () => {
     const [displayValue, setDisplayValue] = useState('0')
 
-    const handleClick = (e: any) => { debugger;alert(e.currentTarget.innerText) }
+    const handleClick = (e: any) => {
+        setDisplayValue(displayValue + e.currentTarget.innerText)
+    }
+
+    const generateRandomNumber = async () => {
+        const url = 'https://www.random.org/integers/?num=1&min=1&max=100&col=1&base=10&format=plain&rnd=new'
+        let response = await fetch(url);
+
+        if (response.ok) {
+            let num = await response.text();
+            setDisplayValue(displayValue + parseInt(num))
+        } else {
+            console.log("HTTP-Error: " + response.status);
+        }
+    }
 
     return (<div className="calc-container">
         <div className="value">{displayValue}</div>
@@ -38,6 +52,10 @@ const Calculator = () => {
             <Button value='.' onClick={e => handleClick(e)} />
             <Button value='^2' onClick={e => handleClick(e)} />
             <Button value='=' onClick={e => handleClick(e)} />
+        </div>
+        <div className="row">
+            <Button value='RAND' onClick={() => generateRandomNumber()} />
+            <Button value='C' onClick={() => setDisplayValue('')} />
         </div>
     </div>)
 }
