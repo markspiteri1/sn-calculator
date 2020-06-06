@@ -3,7 +3,7 @@ import Button from './../button/button'
 import './calculator.scss'
 
 const Calculator = () => {
-    const [displayValue, setDisplayValue] = useState('fefref')
+    const [displayValue, setDisplayValue] = useState('0')
     return (<div className="calc-container">
         <div className="value">{displayValue}</div>
         <div className="row">
