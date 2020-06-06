@@ -40,16 +40,28 @@ const Calculator = () => {
         }
     }
 
-    const validateExpression = (exp: string) => {
-        if (exp[exp.length - 1] === '-')
-            return false
-        if (exp[exp.length - 1] === '+')
-            return false
+    // const validateExpression = (exp: string) => {
+    //     if (exp[exp.length - 1] === '-')
+    //         return false
+    //     if (exp[exp.length - 1] === '+')
+    //         return false
 
-    }
+    // }
 
     const evaluateExpression = () => {
-
+        try {
+            debugger
+            let expression = displayValue.replace(/sin/g, 'Math.sin')
+            expression = expression.replace(/cos/g, 'Math.cos')
+            expression = expression.replace(/tan/g, 'Math.tan')
+            expression = expression.replace(/X/g, '*')
+            let answer = eval(displayValue);
+            return true
+        } catch (e) {
+            if (e instanceof SyntaxError) {
+                return false
+            }
+        }
     }
 
     const generateRandomNumber = async () => {
@@ -94,7 +106,7 @@ const Calculator = () => {
             <Button value='0' onClick={e => handleClick(e)} />
             <Button value='.' onClick={e => handleClick(e)} />
             <Button value='x^2' onClick={e => handleClick(e)} />
-            <Button value='=' onClick={e => handleClick(e)} isFunction />
+            <Button value='=' onClick={e => evaluateExpression()} isFunction />
         </div>
         <div className="row">
             <Button value='RAND' onClick={() => generateRandomNumber()} isFunction />
