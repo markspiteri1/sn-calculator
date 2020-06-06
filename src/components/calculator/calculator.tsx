@@ -3,15 +3,15 @@ import Button from './../button/button'
 import './calculator.scss'
 
 const Calculator = () => {
-    const [displayValue, setDisplayValue] = useState('0')
+    const [displayValue, setDisplayValue] = useState('')
     const [functionOpen, setFunctionOpen] = useState(false)
 
     const handleClick = (e: any) => {
-        if (displayValue === 'Invalid exp.'){
+        if (displayValue === 'Invalid exp.') {
             return
         }
         setDisplayValue(displayValue + e.currentTarget.innerText)
-         switch (e.currentTarget.innerText) {
+        switch (e.currentTarget.innerText) {
             case 'sin':
             case 'cos':
             case 'tan':
@@ -39,26 +39,20 @@ const Calculator = () => {
                     }
                 }
                 break
-
         }
     }
 
-    // const validateExpression = (exp: string) => {
-    //     if (exp[exp.length - 1] === '-')
-    //         return false
-    //     if (exp[exp.length - 1] === '+')
-    //         return false
-
-    // }
-
     const evaluateExpression = () => {
         try {
-            debugger
-            let expression = displayValue.replace(/sin/g, 'Math.sin')
+            let expression = displayValue
+            if (functionOpen) {
+                expression += ')'
+                setFunctionOpen(false)
+            }
+            expression = expression.replace(/sin/g, 'Math.sin')
             expression = expression.replace(/cos/g, 'Math.cos')
             expression = expression.replace(/tan/g, 'Math.tan')
             expression = expression.replace(/X/g, '*')
-            expression = expression.replace(/x^2/g, 'Math.pow')
             let answer = eval(expression);
             setDisplayValue(answer)
         } catch (e) {
@@ -114,7 +108,7 @@ const Calculator = () => {
         </div>
         <div className="row">
             <Button value='RAND' onClick={() => generateRandomNumber()} isFunction />
-            <Button value='C' onClick={() => setDisplayValue('0')} isFunction />
+            <Button value='C' onClick={() => setDisplayValue('')} isFunction />
         </div>
     </div>)
 }
