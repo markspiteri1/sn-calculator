@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from './../button/button'
 import './calculator.scss'
 
 const Calculator = () => {
+    const [displayValue, setDisplayValue] = useState('fefref')
     return (<div className="calc-container">
+        <div className="value">{displayValue}</div>
         <div className="row">
             <Button value='sin'/>
             <Button value='cos'/>
