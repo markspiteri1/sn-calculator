@@ -4,9 +4,41 @@ import './calculator.scss'
 
 const Calculator = () => {
     const [displayValue, setDisplayValue] = useState('0')
+    const [functionOpen, setFunctionOpen] = useState(false)
 
     const handleClick = (e: any) => {
         setDisplayValue(displayValue + e.currentTarget.innerText)
+        switch (e.currentTarget.innerText) {
+            case 'sin':
+            case 'cos':
+            case 'tan':
+            case 'x^2':
+                setDisplayValue(displayValue + e.currentTarget.innerText + '(')
+                setFunctionOpen(true)
+                break
+            case '+':
+            case '-':
+            case 'X':
+            case '/':
+                if (functionOpen) {
+                    setDisplayValue(displayValue + ')' + e.currentTarget.innerText)
+                    setFunctionOpen(false)
+                }
+                break
+                
+        }
+    }
+
+    const validateExpression = (exp: string) => {
+        if (exp[exp.length - 1] === '-')
+            return false
+        if (exp[exp.length - 1] === '+')
+            return false
+
+    }
+
+    const evaluateExpression = () => {
+
     }
 
     const generateRandomNumber = async () => {
@@ -15,7 +47,7 @@ const Calculator = () => {
 
         if (response.ok) {
             let num = await response.text();
-            setDisplayValue(parseInt(num) +'')
+            setDisplayValue(parseInt(num) + '')
         } else {
             console.log("HTTP-Error: " + response.status);
         }
@@ -24,10 +56,10 @@ const Calculator = () => {
     return (<div className="calc-container">
         <div className="value">{displayValue}</div>
         <div className="row">
-            <Button value='sin' onClick={e => handleClick(e)} isFunction/>
-            <Button value='cos' onClick={e => handleClick(e)} isFunction/>
-            <Button value='tan' onClick={e => handleClick(e)} isFunction/>
-            <Button value='/' onClick={e => handleClick(e)} isFunction/>
+            <Button value='sin' onClick={e => handleClick(e)} isFunction />
+            <Button value='cos' onClick={e => handleClick(e)} isFunction />
+            <Button value='tan' onClick={e => handleClick(e)} isFunction />
+            <Button value='/' onClick={e => handleClick(e)} isFunction />
         </div>
         <div className="row">
             <Button value='7' onClick={e => handleClick(e)} />
@@ -45,17 +77,17 @@ const Calculator = () => {
             <Button value='1' onClick={e => handleClick(e)} />
             <Button value='2' onClick={e => handleClick(e)} />
             <Button value='3' onClick={e => handleClick(e)} />
-            <Button value='+' onClick={e => handleClick(e)} isFunction/>
+            <Button value='+' onClick={e => handleClick(e)} isFunction />
         </div>
         <div className="row">
             <Button value='0' onClick={e => handleClick(e)} />
             <Button value='.' onClick={e => handleClick(e)} />
-            <Button value='^2' onClick={e => handleClick(e)}/>
-            <Button value='=' onClick={e => handleClick(e)} isFunction/>
+            <Button value='x^2' onClick={e => handleClick(e)} />
+            <Button value='=' onClick={e => handleClick(e)} isFunction />
         </div>
         <div className="row">
-            <Button value='RAND' onClick={() => generateRandomNumber()} isFunction/>
-            <Button value='C' onClick={() => setDisplayValue('0')} isFunction/>
+            <Button value='RAND' onClick={() => generateRandomNumber()} isFunction />
+            <Button value='C' onClick={() => setDisplayValue('0')} isFunction />
         </div>
     </div>)
 }
